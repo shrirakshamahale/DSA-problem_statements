@@ -1,0 +1,39 @@
+Given an array of integers arr[] of size N, find the two smallest integers in the array and form the largest possible number using them. Output this largest number
+#include <stdio.h>
+#include <limits.h>
+
+// Function to find the largest number formed by two smallest integers
+int findLargestNumber(int* arr, int n) {
+    int min1 = INT_MAX, min2 = INT_MAX;
+
+    // Find two smallest numbers
+    for (int i = 0; i < n; i++) {
+        if (arr[i] < min1) {
+            min2 = min1;
+            min1 = arr[i];
+        } else if (arr[i] < min2) {
+            min2 = arr[i];
+        }
+    }
+
+    // Form the two possible numbers
+    int num1 = min1 * 10 + min2;
+    int num2 = min2 * 10 + min1;
+
+    // Return the larger
+    return (num1 > num2) ? num1 : num2;
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+    int arr[n];
+    for (int i = 0; i < n; ++i) {
+        scanf("%d", &arr[i]);
+    }
+
+    int result = findLargestNumber(arr, n);
+    printf("%d\n", result);
+
+    return 0;
+}
