@@ -1,0 +1,37 @@
+In a peaceful village, the wise sage decided to introduce a new challenge at the annual harvest festival. He handed out numbered stones to the villagers and told them the task: find pairs of stones such that each numbers were divisible by either of two special numbers, N and M.
+
+The villagers quickly grouped the stones, checking which ones met the criteria. They worked together, carefully pairing up the stones that were divisible by either N or M, making sure no pair was repeated and a pair must contain different stone.
+
+By the end of the day, they had discovered several unique pairs, and the sage was pleased with their effort and the count they got.
+
+
+
+
+
+#include <stdio.h>
+
+int find_lucky_stone_pairs(int p, int n, int m, int stones[]) {
+    int count_lucky = 0;
+
+    // Count how many stones are divisible by n or m
+    for (int i = 0; i < p; i++) {
+        if (stones[i] % n == 0 || stones[i] % m == 0) {
+            count_lucky++;
+        }
+    }
+
+    // Number of unique pairs = kC2 = k*(k-1)/2
+    return (count_lucky * (count_lucky - 1)) / 2;
+}
+
+int main() {
+    int p, n, m;
+    scanf("%d %d %d", &p, &n, &m);
+    int stones[p];
+    for (int i = 0; i < p; i++) {
+        scanf("%d", &stones[i]);
+    }
+    int result = find_lucky_stone_pairs(p, n, m, stones);
+    printf("%d\n", result);
+    return 0;
+}
