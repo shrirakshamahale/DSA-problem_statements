@@ -1,0 +1,70 @@
+In the serene village of Blossomville, two dedicated gardeners, Lily and Rose, took pride in their flourishing gardens. Lily's garden was adorned with vibrant flowers, while Rose's garden was filled with aromatic herbs. On a beautiful sunny day, they decided to have a friendly competition to determine whose garden attracted more bees.
+
+Lily created a list1 of N1 elements of the types of flowers she had and their quantities. Rose did the same with her herbs and created a list2 of N2 elements. They then compared their lists.
+
+For each type of flower in Lily's garden, they compared its quantity with the quantity of the same type of herb in Rose's garden. If Lily had more of a particular flower than Rose had herbs, Lily noted down that flower in her notebook.
+
+Lily ensured that her final list of flowers maintained the same order as they bloomed in her garden, showcasing her beautiful array of flowers.
+
+Given two lists of integers representing the flower quantities in Lily's garden and the herb quantities in Rose's garden, you need to determine which flowers Lily should note down in her notebook based on the above criteria.
+
+
+
+#include <stdio.h>
+
+void user_logic(int n1, int flowers[], int n2, int herbs[], int result[], int *result_size) {
+    // Frequency arrays for flowers and herbs
+    int freq_flower[10001] = {0};
+    int freq_herb[10001] = {0};
+
+    // Count frequencies
+    for (int i = 0; i < n1; i++) {
+        freq_flower[flowers[i]]++;
+    }
+    for (int i = 0; i < n2; i++) {
+        freq_herb[herbs[i]]++;
+    }
+
+    *result_size = 0;
+
+    // Check each flower in Lily's garden in order
+    for (int i = 0; i < n1; i++) {
+        int f = flowers[i];
+        if (freq_flower[f] > freq_herb[f]) {
+            result[(*result_size)++] = f;
+        }
+    }
+
+    if (*result_size == 0) {
+        result[0] = -1;
+        *result_size = 1;
+    }
+}
+
+int main() {
+    int n1, n2;
+    scanf("%d", &n1);
+    int flowers[n1];
+    for (int i = 0; i < n1; ++i) {
+        scanf("%d", &flowers[i]);
+    }
+    scanf("%d", &n2);
+    int herbs[n2];
+    for (int i = 0; i < n2; ++i) {
+        scanf("%d", &herbs[i]);
+    }
+
+    int result[1000];
+    int result_size = 0;
+    user_logic(n1, flowers, n2, herbs, result, &result_size);
+
+    if (result_size == 1 && result[0] == -1) {
+        printf("-1\n");
+    } else {
+        for (int i = 0; i < result_size; ++i) {
+            printf("%d ", result[i]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
