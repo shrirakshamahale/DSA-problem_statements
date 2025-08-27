@@ -1,0 +1,52 @@
+In a village nestled at the foot of a mountain, skilled artisans crafted magical lanterns that glowed brighter the higher they were carried. To create the most powerful lantern, the village elder needed to calculate its "wish value (absolute difference between maximum and minimum brightness)" by comparing two factors for each mountain peak:
+
+The maximum brightness from the current peak to the highest point.
+The minimum brightness from the start to that peak.
+The elder had to calculate the sum of these wish values to determine the lantern's power. The village eagerly awaited to see if the elder could craft the most powerful lantern ever made.
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstdint>
+#include <cstdlib>
+
+long long calculate_wish_values_sum(int N, const std::vector<int>& A) {
+    if (N == 0) return 0;
+
+    std::vector<int> prefMin(N), sufMax(N);
+
+    // Build prefix minima
+    prefMin[0] = A[0];
+    for (int i = 1; i < N; ++i) {
+        prefMin[i] = std::min(prefMin[i - 1], A[i]);
+    }
+
+    // Build suffix maxima
+    sufMax[N - 1] = A[N - 1];
+    for (int i = N - 2; i >= 0; --i) {
+        sufMax[i] = std::max(sufMax[i + 1], A[i]);
+    }
+
+    // Sum absolute differences (use 64-bit)
+    long long sum = 0;
+    for (int i = 0; i < N; ++i) {
+        sum += std::llabs(static_cast<long long>(sufMax[i]) - prefMin[i]);
+    }
+    return sum;
+}
+
+int main() {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
+    int N;
+    std::cin >> N;
+    std::vector<int> A(N);
+    for (int i = 0; i < N; ++i) std::cin >> A[i];
+
+    long long result = calculate_wish_values_sum(N, A);
+    std::cout << result << '\n';
+    return 0;
+}
+
