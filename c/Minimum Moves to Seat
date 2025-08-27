@@ -1,0 +1,52 @@
+Pavel is given a room with N seats and N students.
+
+Each seat's position is represented by the array seats of length N, where seats[i] indicates the position of the ith seat.
+Similarly, the positions of the students are given in an array students of length N, where students[j] represents the position of the jth student.
+Pavel is allowed to move each student by one position to the left or right any number of time. The goal is to find the minimum number of moves required to shift the students to seats in such a way that no two students are seated together.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Comparator for qsort
+int cmp(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int calculate_min_moves(int* seats, int* students, int n) {
+    // Sort both arrays
+    qsort(seats, n, sizeof(int), cmp);
+    qsort(students, n, sizeof(int), cmp);
+
+    int moves = 0;
+    for (int i = 0; i < n; i++) {
+        moves += abs(seats[i] - students[i]);
+    }
+    return moves;
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+
+    int* seats = (int*)malloc(n * sizeof(int));
+    int* students = (int*)malloc(n * sizeof(int));
+
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &seats[i]);
+    }
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &students[i]);
+    }
+
+    int result = calculate_min_moves(seats, students, n);
+    printf("%d\n", result);
+
+    free(seats);
+    free(students);
+    return 0;
+}
+
+
+
+
+
